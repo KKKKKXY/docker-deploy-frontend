@@ -7,7 +7,7 @@ COPY package*.json /app/
 
 RUN npm install
 
-COPY .. /app
+COPY ./ /app
 
 ARG TARGET=ng-deploy-dev
 
