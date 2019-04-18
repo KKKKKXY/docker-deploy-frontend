@@ -43,7 +43,9 @@ export class AppModule {
     const cache = new InMemoryCache();
     apollo.create({
       link: httpLink.create({ uri: environment.graphqlUri }),
-      cache: new InMemoryCache()
+      cache: new InMemoryCache({
+        addTypename: false
+      })
     });
   }
 }
