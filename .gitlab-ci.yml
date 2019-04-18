@@ -1,0 +1,19 @@
+image: ubuntu:12.04
+
+before_script:
+- apt-get update -qq
+- apt-get install -qq git
+- 'which ssh-agent || ( apt-get install -qq openssh-client )'
+- eval $(ssh-agent -s)
+- ssh-add <(echo "$SSH_PRIVATE_KEY")
+- mkdir -p ~/.ssh
+- '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+stages:
+- deploy
+
+deploy_app:
+  stage: deploy
+  script:
+  - ssh ubuntu@$DEPLOY_SERVER "rm -rf /var/www/html/*"
+  - scp html/* ubuntu@$DEPLOY_SERVER:/var/www/html/
